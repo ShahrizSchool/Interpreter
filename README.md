@@ -1,7 +1,7 @@
 # CSC 413 - Project Two - The Interpreter
 
-## Student Name  : Name here
+## Student Name  : Shahriz Malek
 
-## Student ID    : ID here
+## Student ID    : 920378989
 
-## Student Email : Email here
+## Student Email : smalek@mail.sfsu.edu
