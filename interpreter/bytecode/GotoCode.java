@@ -4,17 +4,19 @@ import interpreter.virtualmachine.VirtualMachine;
 
 import java.util.ArrayList;
 
-public class GoToCode extends BranchCode{
+public class GotoCode extends BranchCode{
+    private String label;
+    private int targetAddress;
     //Bytecode
 
     @Override
     public void init(ArrayList<String> args) {
-
+        this.label = args.get(0);
     }
 
     @Override
     public void execute(VirtualMachine vm) {
-
+        vm.setProgramCounter(targetAddress - 1);
     }
 
     //BranchCode
@@ -22,7 +24,7 @@ public class GoToCode extends BranchCode{
 
     @Override
     public void setTargetAddress(int n) {
-
+        this.targetAddress = n;
     }
 
     @Override
@@ -32,6 +34,15 @@ public class GoToCode extends BranchCode{
 
     @Override
     public String getLabel() {
-        return null;
+        return this.label;
+    }
+
+    public void setLabel(int i){
+        label = Integer.toString(i);
+    }
+
+    @Override
+    public String print() {
+        return ("GoToCode " + label);
     }
 }

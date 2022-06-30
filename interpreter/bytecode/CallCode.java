@@ -5,16 +5,23 @@ import interpreter.virtualmachine.VirtualMachine;
 import java.util.ArrayList;
 
 public class CallCode extends BranchCode{
+    private String label;
+    private int targetAddress;
+    private int addressC;
+    private String argPassed;
 
     //ByteCode
     @Override
     public void init(ArrayList<String> args) {
-
+        label = args.get(0);
     }
 
     @Override
     public void execute(VirtualMachine vm) {
-
+        addressC = vm.getProgramCounterC();
+        vm.setProgramCounter(targetAddress - 1);
+        vm.pushReturnAddress(addressC);
+        argPassed = vm.peekFrameRunTimeStack();
     }
 
     //BranchCode
@@ -26,6 +33,10 @@ public class CallCode extends BranchCode{
     @Override
     public String getLabel() {
         return null;
+    }
+
+    public void setLabel(int n ){
+        label = Integer.toString(n);
     }
 
     @Override

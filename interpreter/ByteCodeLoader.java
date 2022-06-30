@@ -1,16 +1,21 @@
 package interpreter;
 
+import interpreter.bytecode.ByteCode;
 import interpreter.virtualmachine.Program;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 
 public final class ByteCodeLoader {
 
     private BufferedReader byteSource;
-    
+    private StringTokenizer tok;
+
     /**
      * Constructor Simply creates a buffered reader.
      * YOU ARE NOT ALLOWED TO READ FILE CONTENTS HERE
@@ -29,7 +34,55 @@ public final class ByteCodeLoader {
      *      the newly created ByteCode instance via the init function.
      *      Then add newly created and initialize ByteCode to the program
      */
-    public Program loadCodes() {
-       return null;
+    public Program loadCodes()  {
+        String line;
+        String[] items;
+        String byteCodeName; //Byte code name from .x.cod file
+        String className; // class name after it's mapped from name in source code to class name.
+        Class classBlueprint;
+        ArrayList<String> args = new ArrayList<>();
+        Program program = new Program();
+        ByteCode bc;
+
+        try {
+            while (this.byteSource.ready()) {
+                line = this.byteSource.readLine();
+                items = line.split("\\s+");
+                byteCodeName = items[0];
+                className = CodeTable.getClassName(byteCodeName);
+                classBlueprint = Class.forName("interpreter.bytecode." + className);
+                System.out.println(className);
+                System.out.printf(String.valueOf(classBlueprint));
+
+                bc = (ByteCode) classBlueprint.getDeclaredConstructor().newInstance();
+                System.out.println(bc);
+
+                for (int i = 1; i < items.length; i++){
+                    args.add(items[i]);
+                }
+
+                bc.init(args);
+                program.add(bc);
+                args.clear();
+            }
+        } catch(IOException ex){
+            System.out.println("Load Codes error");
+            System.out.println(ex);
+            System.exit(255);
+        } catch (ClassNotFoundException ex){
+            System.out.println("class not found");
+            System.out.println(ex);
+            System.exit(255);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        program.resolveAddress();
+        return program;
     }
 }
