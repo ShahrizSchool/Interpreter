@@ -1,6 +1,8 @@
 package interpreter.virtualmachine;
 
 import interpreter.bytecode.ByteCode;
+import interpreter.bytecode.DumpCode;
+import interpreter.bytecode.ReadCode;
 
 import java.util.Stack;
 import java.util.Scanner;
@@ -30,9 +32,11 @@ public class VirtualMachine {
 
             bc.execute(this);
 
-            if(dumper && !bc.getClass().toString().contains("Dump")){
-                System.out.println(bc.print());
-                runTimeStack.dump();
+            if(dumper){
+                if(!(bc instanceof DumpCode)){
+                    System.out.println(bc);
+                    runTimeStack.dump();
+                }
             }
             programCounter++;
         }
@@ -95,9 +99,4 @@ public class VirtualMachine {
         dumper = dumper;
     }
 
-    public int read() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Enter an integer: ");
-        return scan.nextInt();
-    }
 }

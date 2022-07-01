@@ -2,6 +2,7 @@ package interpreter;
 
 import interpreter.bytecode.ByteCode;
 import interpreter.virtualmachine.Program;
+import interpreter.virtualmachine.VirtualMachine;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -50,12 +51,12 @@ public final class ByteCodeLoader {
                 items = line.split("\\s+");
                 byteCodeName = items[0];
                 className = CodeTable.getClassName(byteCodeName);
+//                System.out.println(" Class name: " + className);
+//                System.out.println(" ByteCode Name: " + byteCodeName);
                 classBlueprint = Class.forName("interpreter.bytecode." + className);
-                System.out.println(className);
-                System.out.printf(String.valueOf(classBlueprint));
 
                 bc = (ByteCode) classBlueprint.getDeclaredConstructor().newInstance();
-                System.out.println(bc);
+//                System.out.println(bc);
 
                 for (int i = 1; i < items.length; i++){
                     args.add(items[i]);
@@ -70,7 +71,7 @@ public final class ByteCodeLoader {
             System.out.println(ex);
             System.exit(255);
         } catch (ClassNotFoundException ex){
-            System.out.println("class not found");
+            System.out.println("class not found error");
             System.out.println(ex);
             System.exit(255);
         } catch (InvocationTargetException e) {

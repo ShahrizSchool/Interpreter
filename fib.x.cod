@@ -1,6 +1,6 @@
 GOTO start<<1>>
 LABEL Read
-Read
+READ
 RETURN
 LABEL Write
 LOAD 0 dummyFormal

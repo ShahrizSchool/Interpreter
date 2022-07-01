@@ -3,6 +3,7 @@ package interpreter.virtualmachine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.*;
 
 class RunTimeStack {
 
@@ -111,14 +112,15 @@ class RunTimeStack {
         framePointer.push(runTimeStack.size() - offset);
     }
 
-    public void dump(){
+    public void dump() {
+
         System.out.println("[");
 
         ArrayList<Integer> arrList = new ArrayList<>();
 
-        if(!runTimeStack.isEmpty()){
-            for(int i = 0; i < framePointer.size(); i++){
-                if(framePointer.get(i) > 0){
+        if (!runTimeStack.isEmpty()) {
+            for (int i = 0; i < framePointer.size(); i++) {
+                if (framePointer.get(i) > 0) {
                     arrList.add(framePointer.get(i));
                 }
             }
@@ -128,21 +130,19 @@ class RunTimeStack {
 
         int sizeOfStack = runTimeStack.size();
 
-        for(int i=0; i<sizeOfStack; i++) {
-            int imp =0;
-            if(arrList.get(imp) == i){
+        for (int i = 0; i < sizeOfStack; i++) {
+            int imp = 0;
+            if (arrList.get(imp) == i) {
                 System.out.println("] [");
-            }
-            else if(arrList.get(imp) == i+1){
+            } else if (arrList.get(imp) == i + 1) {
                 comma = false;
             }
             System.out.println(runTimeStack.get(i));
 
-            if(!runTimeStack.isEmpty() && sizeOfStack != i+1){
-                if(!comma){
+            if (!runTimeStack.isEmpty() && sizeOfStack != i + 1) {
+                if (!comma) {
                     comma = true;
-                }
-                else {
+                } else {
                     System.out.println(",");
                 }
 

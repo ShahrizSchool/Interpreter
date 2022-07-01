@@ -39,7 +39,7 @@ public class Interpreter {
     }
 
     public static void main(String args[]) {
-        System.out.println("comp");
+        System.out.println("This is to test if it compiled properly");
         if (args.length == 0) {
             System.out.println("***Incorrect usage, try: java interpreter.Interpreter <file>");
             System.exit(1);
