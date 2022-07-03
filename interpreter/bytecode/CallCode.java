@@ -18,7 +18,7 @@ public class CallCode extends BranchCode{
 
     @Override
     public void execute(VirtualMachine vm) {
-        addressC = vm.getProgramCounterC();
+        addressC = vm.getProgramCounter();
         vm.setProgramCounter(targetAddress - 1);
         vm.pushReturnAddress(addressC);
         argPassed = vm.peekFrameRunTimeStack();
@@ -41,6 +41,12 @@ public class CallCode extends BranchCode{
 
     @Override
     public void setTargetAddress(int n) {
-
+        addressC = n;
     }
+
+    @Override
+    public String print() {
+       return ("Call " + label);
+    }
+
 }

@@ -9,5 +9,10 @@ public abstract class ByteCode{
     public String print(){
         return "";
     }
+
+    public boolean getResolvedAddress(){
+
+        return false;
+    }
 }
 

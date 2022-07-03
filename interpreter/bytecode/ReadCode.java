@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class ReadCode extends ByteCode{
 
-    private int userInput;
+    private String userInput;
     Scanner scanInput = new Scanner(System.in);
     @Override
     public void init(ArrayList<String> args) {
@@ -18,22 +18,16 @@ public class ReadCode extends ByteCode{
 
     @Override
     public void execute(VirtualMachine vm) {
-        boolean invalid = false;
-
         System.out.println("Please enter an integer: ");
+        userInput = scanInput.nextLine();
 
-        do{
-            try{
-                userInput = scanInput.nextInt();
-                invalid = false;
-            }
-            catch (InputMismatchException ex){
-                invalid = true;
-                System.out.println("Please Enter an interger: ");
-                scanInput.nextLine();
-            }
-        } while(invalid);
-        vm.pushRunTimeStack(userInput);
+        try{
+            int value = Integer.parseInt(userInput);
+
+        } catch (Exception err) {
+            System.out.println("Please Enter an Integer!");
+
+        }
     }
 
     @Override

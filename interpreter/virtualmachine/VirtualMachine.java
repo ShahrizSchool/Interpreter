@@ -2,10 +2,8 @@ package interpreter.virtualmachine;
 
 import interpreter.bytecode.ByteCode;
 import interpreter.bytecode.DumpCode;
-import interpreter.bytecode.ReadCode;
 
 import java.util.Stack;
-import java.util.Scanner;
 
 public class VirtualMachine {
 
@@ -14,7 +12,7 @@ public class VirtualMachine {
     private Program        program;
     private int            programCounter;
     private boolean        isRunning;
-    private boolean dumper;
+    private boolean        isDumping;
 
     public VirtualMachine(Program program) {
         this.program = program;
@@ -25,16 +23,15 @@ public class VirtualMachine {
         runTimeStack = new RunTimeStack();
         returnAddress = new Stack<>();
         isRunning = true;
-        dumper = false;
+        isDumping = false;
 
         while(isRunning){
             ByteCode bc = program.getCode(programCounter);
-
             bc.execute(this);
 
-            if(dumper){
+            if(isDumping){
                 if(!(bc instanceof DumpCode)){
-                    System.out.println(bc);
+                    System.out.println(bc.print());
                     runTimeStack.dump();
                 }
             }
@@ -51,7 +48,7 @@ public class VirtualMachine {
         return runTimeStack.pop();
     }
 
-    public int getProgramCounterC(){
+    public int getProgramCounter(){
         return this.programCounter;
     }
 
@@ -96,7 +93,7 @@ public class VirtualMachine {
     }
 
     public void setDumpState(boolean dumper){
-        dumper = dumper;
+        this.isDumping = dumper;
     }
 
 }

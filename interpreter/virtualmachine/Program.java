@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Program {
 
     private ArrayList<ByteCode> program;
-    private HashMap<String, Integer> address = new HashMap<>();
+    private HashMap<String, Integer> addressMap = new HashMap<>();
 
     public Program() {
         program = new ArrayList<>();
@@ -30,35 +30,25 @@ public class Program {
     public void add(ByteCode byteCode) {
 
         this.program.add(byteCode);
-
-        /*
-        // this is to store the label and the line number
-        if (byteCode instanceof LabelCode) {
-            address.put(((LabelCode) byteCode).getLabel(), getSize());
-        }
-        program.add(byteCode);
-        */
     }
     public void resolveAddress() {
-        for(int i = 0; i < program.size(); i++){
-            ByteCode bc = program.get(i);
-            if (bc instanceof BranchCode){
-                String labelName = ((BranchCode) bc).getLabel();
-                if (address.containsKey(labelName)) {
-                    ((BranchCode) bc).setTargetAddress(address.get(labelName));
-                }
-            }
-        }
+//        for(int i = 0; i < program.size(); i++){
+//            ByteCode bc = program.get(i);
+//            if (bc instanceof BranchCode){
+//                BranchCode bcc = (BranchCode) bc;
+//                bcc.setTargetAddress(addressMap.get(bcc.getLabel()));
+//            }
+//        }
 
         for (int i = 0; i < program.size(); i++) {
             ByteCode addressOne = program.get(i);
 
-            if (addressOne instanceof GotoCode) {
-                address.put(((GotoCode) addressOne).getLabel(), i);
+            if(addressOne instanceof GotoCode){
+                addressMap.put(((GotoCode) addressOne).getLabel(), i);
             }
 
             if (addressOne instanceof LabelCode) {
-                address.put(((LabelCode) addressOne).getLabel(), i);
+                addressMap.put(((LabelCode) addressOne).getLabel(), i);
             }
         }
 
@@ -66,23 +56,26 @@ public class Program {
             ByteCode addressTwo = program.get(i);
 
             if (addressTwo instanceof FalseBranchCode) {
-                if (address.containsKey(((FalseBranchCode) addressTwo).getLabel())) {
-                    ((FalseBranchCode) addressTwo).setLabel(address.get(((FalseBranchCode) addressTwo).getLabel()));
+                if (addressMap.containsKey(((FalseBranchCode) addressTwo).getLabel())) {
+                    FalseBranchCode FBC = (FalseBranchCode) addressTwo;
+                    FBC.setTargetAddress(addressMap.get(FBC.getLabel()));
                 }
             }
 
             if (addressTwo instanceof GotoCode) {
-                if (address.containsKey(((GotoCode) addressTwo).getLabel())) {
-                    ((GotoCode) addressTwo).setLabel(address.get(((GotoCode) addressTwo).getLabel()));
+                if (addressMap.containsKey(((GotoCode) addressTwo).getLabel())) {
+                    GotoCode GTC = (GotoCode) addressTwo;
+                    GTC.setTargetAddress(addressMap.get(GTC.getLabel()));
                 }
             }
 
             if (addressTwo instanceof CallCode) {
-                if (address.containsKey(((CallCode) addressTwo).getLabel())) {
-                    ((CallCode) addressTwo).setLabel(address.get(((CallCode) addressTwo).getLabel()));
+                if (addressMap.containsKey(((CallCode) addressTwo).getLabel())) {
+                    CallCode CC = (CallCode) addressTwo;
+                    CC.setTargetAddress(addressMap.get(CC.getLabel()));
                 }
+
             }
         }
-
     }
 }
