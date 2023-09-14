@@ -2,7 +2,7 @@
 
 ## Student Name  : Shahriz Malek
 
-## Student ID    : 920378989
+## Student ID    : ***********
 
-## Student Email : smalek@mail.sfsu.edu
+## Student Email : ***********
 # Interpreter
